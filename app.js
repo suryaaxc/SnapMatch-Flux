@@ -20,9 +20,11 @@ const shadowVal = document.getElementById('shadowVal');
 const brightVal = document.getElementById('brightVal');
 const blurVal = document.getElementById('blurVal');
 
-// 🎨 Premium Background State Machine Maps
 const bgSelectors = document.querySelectorAll('#bgSelectors button');
+const presetButtons = document.querySelectorAll('#presetSelectors button');
+
 let activeBgType = 'cyan-blue'; 
+let activePreset = 'none'; // Track active matrix filter shader state
 let loadedImage = null;
 
 const gradientMap = {
@@ -69,8 +71,14 @@ function handleImageStream(file) {
             loadedImage = img;
             uploadPrompt.classList.add('hidden');
             previewContainer.classList.remove('hidden');
-            renderSnapMatrix(); // Initial render lock execution
-            showNotification("Image successfully ingested into SnapVerse Buffer");
+            
+            // Trigger entry fade-in animations vectors
+            setTimeout(() => {
+                previewContainer.classList.remove('scale-95', 'opacity-0');
+            }, 50);
+
+            renderSnapMatrix(); 
+            showNotification("Asset successfully locked into SnapVerse Environment");
         };
     };
 }
@@ -79,39 +87,36 @@ function handleImageStream(file) {
 function renderSnapMatrix() {
     if (!loadedImage) return;
 
-    // Reading absolute dynamic configurations parameters
     const padding = parseInt(sliderPadding.value);
     const radius = parseInt(sliderRadius.value);
     const shadowBlur = parseInt(sliderShadow.value);
-    const brightness = sliderBrightness.value;
-    const pixelBlur = sliderBlur.value;
+    let brightness = sliderBrightness.value;
+    let pixelBlur = sliderBlur.value;
 
-    // Synchronize current slider UI tracker counters
+    // Sync baseline counter readouts
     padVal.textContent = `${padding}px`;
     radiusVal.textContent = `${radius}px`;
     shadowVal.textContent = `${shadowBlur}px`;
     brightVal.textContent = `${brightness}%`;
     blurVal.textContent = `${pixelBlur}px`;
 
-    // Calculate structural canvas matrix dimensions based on absolute high-res asset
     const imgWidth = loadedImage.width;
     const imgHeight = loadedImage.height;
     
-    // Scale macro canvas spacing layout rules proportionally
     const computedPad = (imgWidth * (padding / 100));
     mainCanvas.width = imgWidth + (computedPad * 2);
     mainCanvas.height = imgHeight + (computedPad * 2);
 
     ctx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
 
-    // 1. Draw Background Studio Gradient Matrix
+    // 1. Background Frame Render Loop
     const grad = ctx.createLinearGradient(0, 0, mainCanvas.width, mainCanvas.height);
     grad.addColorStop(0, gradientMap[activeBgType].start);
     grad.addColorStop(1, gradientMap[activeBgType].end);
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, mainCanvas.width, mainCanvas.height);
 
-    // 2. Setup Glassmorphic Shadow Layout Environment
+    // 2. Setup Shadows Space Layer
     if (shadowBlur > 0) {
         ctx.shadowColor = 'rgba(0, 0, 0, 0.55)';
         ctx.shadowBlur = (imgWidth * (shadowBlur / 400));
@@ -119,12 +124,12 @@ function renderSnapMatrix() {
         ctx.shadowOffsetY = (imgWidth * (shadowBlur / 600));
     }
 
-    // 3. Render Inner Clip Path for Rounded Mockup Corners
     ctx.save();
     const targetX = computedPad;
     const targetY = computedPad;
     const targetRadius = (imgWidth * (radius / 300));
 
+    // 3. Mockup Corner Rounding Clip Path Trace
     ctx.beginPath();
     ctx.moveTo(targetX + targetRadius, targetY);
     ctx.lineTo(targetX + imgWidth - targetRadius, targetY);
@@ -138,18 +143,37 @@ function renderSnapMatrix() {
     ctx.closePath();
     ctx.clip();
 
-    // 4. Inject Image Filters Shader Properties Array 
-    ctx.filter = `brightness(${brightness}%) blur(${pixelBlur}px)`;
+    // 4. Algorithmic Shader Filters Routing
+    let filterString = `brightness(${brightness}%) blur(${pixelBlur}px)`;
     
-    // 5. Blit Image onto Hardware Canvas Stream
+    if (activePreset === 'iphone') {
+        // iPhone Trend Lookup: Warm saturations with high-contrast luminance pops
+        filterString += ` saturate(160%) contrast(115%) sepia(10%)`;
+    } else if (activePreset === 'cartoon') {
+        // Comic Cartoon Base Layer Style Map
+        filterString += ` contrast(180%) saturate(140%) grayscale(10%)`;
+    } else if (activePreset === 'cyber') {
+        // Neon Cyberpunk Cyber Color Inversion Map
+        filterString += ` hue-rotate(290deg) saturate(200%) contrast(110%)`;
+    }
+
+    ctx.filter = filterString;
     ctx.drawImage(loadedImage, targetX, targetY, imgWidth, imgHeight);
-    ctx.restore(); // Terminate context shadowing and clip matrices
+    ctx.restore();
+
+    // 5. Hard Draw Cartoon Comic Structural Borders Layer if Active
+    if (activePreset === 'cartoon') {
+        ctx.save();
+        ctx.strokeStyle = '#000000';
+        ctx.lineWidth = (imgWidth * 0.015); // Dynamic trace border weight mapping
+        ctx.strokeRect(targetX, targetY, imgWidth, imgHeight);
+        ctx.restore();
+    }
     
-    // Sync viewport screen image visualization state with high-res background canvas data
     viewImage.src = mainCanvas.toDataURL('image/png');
 }
 
-// --- 🎛️ CORE REAL-TIME CONTROLLER INTERFACES LISTENERS ---
+// --- 🎛️ CORE LISTENERS MANAGEMENT CORE ---
 [sliderPadding, sliderRadius, sliderShadow, sliderBrightness, sliderBlur].forEach(slider => {
     slider.addEventListener('input', renderSnapMatrix);
 });
@@ -163,12 +187,27 @@ bgSelectors.forEach(btn => {
     });
 });
 
-// --- 💾 EXPORTER MATRIX CHANNELS ---
+// Preset Buttons Event Matrix
+presetButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        presetButtons.forEach(b => {
+            b.classList.remove('border-cyan-500/80', 'text-cyan-400', 'pulse-active');
+            b.classList.add('border-slate-700', 'text-slate-300');
+        });
+        btn.classList.remove('border-slate-700', 'text-slate-300');
+        btn.classList.add('border-cyan-500/80', 'text-cyan-400', 'pulse-active');
+        
+        activePreset = btn.getAttribute('data-preset');
+        renderSnapMatrix();
+    });
+});
+
+// --- 💾 EXPORTER CHANNELS ---
 document.getElementById('downloadBtn').addEventListener('click', () => {
     if (!loadedImage) return alert("Ingest an asset into SnapVerse first, bhai! 🤦‍♂️");
     const a = document.createElement('a');
     a.href = mainCanvas.toDataURL('image/png');
-    a.download = `SnapVerse_${Date.now()}.png`;
+    a.download = `SnapVerse_${activePreset}_${Date.now()}.png`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -184,12 +223,10 @@ document.getElementById('copyBtn').addEventListener('click', async () => {
             showNotification("Asset copied straight to Clipboard!");
         });
     } catch (err) {
-        console.error(err);
-        alert("Clipboard pipeline blocked by local browser sandbox configuration rules.");
+        alert("Clipboard channel block detected inside host layout sandbox rules.");
     }
 });
 
-// --- 🌟 MICRO-ALERT VISUAL LAYER ---
 function showNotification(message) {
     const toast = document.getElementById('toast');
     document.getElementById('toastMsg').textContent = message;
