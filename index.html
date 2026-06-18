@@ -3,156 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SnapVerse Effect Pro // AI Poster Matrix Studio</title>
-    <!-- Tailwind CSS Engine -->
+    <title>SnapMotion Flux // Client-Side AI Video Generator</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- FontAwesome Premium Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts Matrix for Poster Styling -->
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@400;800&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
     <style>
         .figma-grid {
             background-size: 20px 20px;
             background-image: linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
                               linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
         }
-        @keyframes pulseNeon {
-            0%, 100% { box-shadow: 0 0 10px rgba(6, 182, 212, 0.2); }
-            50% { box-shadow: 0 0 20px rgba(6, 182, 212, 0.5); }
-        }
-        .pulse-active { animation: pulseNeon 2s infinite; }
     </style>
 </head>
-<body class="bg-[#0b0f19] text-slate-200 min-h-screen font-sans overflow-hidden">
+<body class="bg-[#090d16] text-slate-200 min-h-screen font-sans overflow-hidden">
 
-    <!-- Top Navigation Bar -->
-    <header class="h-16 border-b border-slate-800/60 bg-[#0f172a]/80 backdrop-blur-md flex items-center justify-between px-6 z-50 relative">
+    <header class="h-16 border-b border-slate-800/60 bg-[#0e1626]/80 backdrop-blur-md flex items-center justify-between px-6 z-50 relative">
         <div class="flex items-center gap-3">
-            <div class="h-8 w-8 bg-gradient-to-tr from-cyan-500 to-indigo-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg shadow-cyan-500/20">S</div>
-            <h1 class="text-lg font-semibold tracking-wider bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">SnapVerse <span class="text-cyan-400 font-mono text-sm">Poster Studio v1.2</span></h1>
+            <div class="h-8 w-8 bg-gradient-to-tr from-indigo-500 to-rose-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg shadow-rose-500/20">M</div>
+            <h1 class="text-lg font-semibold tracking-wider bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">SnapMotion <span class="text-rose-400 font-mono text-sm">Flux Engine v1.0</span></h1>
         </div>
-        <div class="flex items-center gap-3">
-            <button id="copyBtn" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-sm font-medium rounded-lg transition-all active:scale-95 flex items-center gap-2 border border-slate-700 cursor-pointer">
-                <i class="fa-regular fa-copy text-cyan-400"></i> Copy to Clipboard
-            </button>
-            <button id="downloadBtn" class="px-4 py-2 bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-600 hover:to-indigo-700 text-sm font-semibold rounded-lg shadow-lg shadow-cyan-500/10 transition-all active:scale-95 flex items-center gap-2 cursor-pointer">
-                <i class="fa-solid fa-cloud-arrow-down"></i> Export 4K Poster
+        <div>
+            <button id="compileBtn" class="px-5 py-2 bg-gradient-to-r from-rose-500 to-indigo-600 hover:from-rose-600 hover:to-indigo-700 text-sm font-semibold rounded-lg shadow-lg shadow-rose-500/20 transition-all active:scale-95 flex items-center gap-2 cursor-pointer">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Compile Video Stream
             </button>
         </div>
     </header>
 
-    <!-- Main Workspace Studio Grid -->
     <main class="flex h-[calc(100vh-64px)] w-full">
         
-        <!-- Left Section: Interactive Canvas Playground -->
-        <section id="dropZone" class="flex-1 figma-grid bg-[#070a13] relative flex items-center justify-center p-8 transition-all duration-300">
-            <canvas id="mainCanvas" class="hidden"></canvas>
+        <section id="dropZone" class="flex-1 figma-grid bg-[#05070f] relative flex items-center justify-center p-8 transition-all duration-300">
+            
+            <canvas id="videoCanvas" class="hidden max-h-[75vh] max-w-full shadow-2xl rounded-xl border border-slate-800 bg-black"></canvas>
 
-            <!-- Initial Drop Visual Target -->
-            <div id="uploadPrompt" class="text-center p-8 border-2 border-dashed border-slate-700/60 hover:border-cyan-500/50 bg-[#0f172a]/40 backdrop-blur-sm rounded-2xl max-w-md transition-all cursor-pointer group">
-                <div class="w-16 h-16 bg-slate-800/80 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 group-hover:bg-cyan-500/10 transition-all border border-slate-700">
-                    <i class="fa-solid fa-wand-magic-sparkles text-2xl text-slate-400 group-hover:text-cyan-400 transition-all"></i>
+            <div id="uploadPrompt" class="text-center p-8 border-2 border-dashed border-slate-700/60 hover:border-rose-500/50 bg-[#0f172a]/40 backdrop-blur-sm rounded-2xl max-w-md transition-all cursor-pointer group">
+                <div class="w-16 h-16 bg-slate-800/80 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 group-hover:bg-rose-500/10 transition-all border border-slate-700">
+                    <i class="fa-solid fa-clapperboard text-2xl text-slate-400 group-hover:text-rose-400 transition-all"></i>
                 </div>
-                <h3 class="text-base font-semibold text-slate-200">Drop an image to build an AI-Style Poster</h3>
-                <p class="text-xs text-slate-400 mt-1 mb-4">Supports PNG, JPG, SVG up to 50MB</p>
-                <label class="px-4 py-2 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 text-xs font-semibold rounded-md border border-cyan-500/30 cursor-pointer transition-all">
-                    Browse File
+                <h3 class="text-base font-semibold text-slate-200">Drop an image to generate motion video</h3>
+                <p class="text-xs text-slate-400 mt-1 mb-4">Transforms static layers into cinematic MP4 loop buffers</p>
+                <label class="px-4 py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 text-xs font-semibold rounded-md border border-rose-500/30 cursor-pointer transition-all">
+                    Browse Asset
                     <input type="file" id="fileInput" class="hidden" accept="image/*">
                 </label>
             </div>
 
-            <!-- Preview Wrapper Container -->
-            <div id="previewContainer" class="hidden max-w-full max-h-full shadow-2xl relative transition-all duration-300 transform scale-95 opacity-0">
-                <img id="viewImage" src="" alt="SnapVerse Preview" class="object-contain max-h-[70vh] transition-all">
+            <div id="loader" class="hidden absolute inset-0 bg-black/80 backdrop-blur-md flex flex-col items-center justify-center gap-4 z-40">
+                <div class="w-12 h-12 border-4 border-rose-500 border-t-transparent rounded-full animate-spin"></div>
+                <p class="text-sm font-mono tracking-widest text-rose-400 animate-pulse">LOCKING MOTION BUFFERS... ENCODING 4K WEB-STREAM</p>
             </div>
 
-            <!-- Toast Messages Panel -->
             <div id="toast" class="absolute bottom-6 left-6 transform translate-y-20 opacity-0 bg-slate-900/90 border border-emerald-500/30 text-emerald-400 px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 transition-all duration-300 backdrop-blur-md z-50">
                 <div class="h-6 w-6 bg-emerald-500/10 rounded-full flex items-center justify-center"><i class="fa-solid fa-check text-xs"></i></div>
-                <span id="toastMsg" class="text-xs font-medium tracking-wide">Poster Layout Processed</span>
+                <span id="toastMsg" class="text-xs font-medium tracking-wide">Motion Compiler Triggered</span>
             </div>
         </section>
 
-        <!-- Right Section: Canva Style Controls Console -->
-        <aside class="w-80 border-l border-slate-800/60 bg-[#0f172a]/90 backdrop-blur-md p-6 flex flex-col gap-6 overflow-y-auto h-full shadow-2xl">
-            
-            <!-- 🪐 SECTION A: AI & COMPOSITION PRESETS -->
-            <div class="flex flex-col gap-3">
+        <aside class="w-80 border-l border-slate-800/60 bg-[#0e1424]/90 backdrop-blur-md p-6 flex flex-col gap-6 overflow-y-auto h-full">
+            <div>
+                <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Motion Engine</h2>
+                <p class="text-[11px] text-slate-500">Configure client camera mapping variables</p>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label class="text-xs font-medium text-slate-300">Cinematic Camera Profile</label>
+                <select id="motionProfile" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-rose-400 cursor-pointer">
+                    <option value="zoomIn">Slow Cinematic Zoom-In</option>
+                    <option value="panRight">Horizon Pan-Right Scan</option>
+                    <option value="dolly">Dynamic Dolly Shifting</option>
+                </select>
+            </div>
+
+            <hr class="border-slate-800/60">
+
+            <div class="flex flex-col gap-5">
                 <div>
-                    <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Ecosystem Styling</h2>
-                    <p class="text-[11px] text-slate-500">Select structural rendering matrix shaders</p>
+                    <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Velocity Bounds</h2>
                 </div>
-                <div class="grid grid-cols-2 gap-2" id="presetSelectors">
-                    <button class="px-2 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-medium rounded-lg text-center border-2 border-cyan-500/80 text-cyan-400 pulse-active cursor-pointer" data-preset="none">✨ Standard</button>
-                    <button class="px-2 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-medium rounded-lg text-center border border-slate-700 text-slate-300 cursor-pointer" data-preset="poster">🔥 AI Poster</button>
-                    <button class="px-2 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-medium rounded-lg text-center border border-slate-700 text-slate-300 cursor-pointer" data-preset="iphone">📸 iOS Mood</button>
-                    <button class="px-2 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-medium rounded-lg text-center border border-slate-700 text-slate-300 cursor-pointer" data-preset="cyber">🌆 Cyber Neon</button>
+
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between text-xs font-medium text-slate-400">
+                        <span>Movement Speed</span>
+                        <span id="speedVal" class="font-mono text-rose-400 text-[11px]">1.5x</span>
+                    </div>
+                    <input type="range" id="sliderSpeed" min="5" max="30" value="15" class="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-rose-400">
                 </div>
             </div>
 
             <hr class="border-slate-800/60">
 
-            <!-- ✍️ NEW SECTION B: CANVA-STYLE TEXT ENGINE LABELS -->
-            <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-5">
                 <div>
-                    <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Canvas Text Layer</h2>
-                    <p class="text-[11px] text-slate-500">Inject custom typographic content nodes</p>
+                    <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Atmospheric Shaders</h2>
+                    <p class="text-[11px] text-slate-500">Inject dynamic noise & overlay patterns</p>
                 </div>
 
-                <!-- Text Value Input Field -->
                 <div class="flex flex-col gap-2">
-                    <label class="text-[11px] font-medium text-slate-400 uppercase">Poster Heading</label>
-                    <input type="text" id="posterText" value="SNAPVERSE DIRECT" placeholder="Type headline..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400 transition-all">
-                </div>
-
-                <!-- Font Family Select Node -->
-                <div class="flex flex-col gap-2">
-                    <label class="text-[11px] font-medium text-slate-400 uppercase">Font Typography</label>
-                    <select id="fontFamily" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400 transition-all cursor-pointer">
-                        <option value="Bebas Neue">Bebas Neue (Heavy Impact)</option>
-                        <option value="Anton">Anton (Bold Condensed)</option>
-                        <option value="Playfair Display">Playfair Display (Premium Luxury)</option>
-                        <option value="Inter">Inter Black (Clean Tech)</option>
+                    <label class="text-xs font-medium text-slate-300">Active Film Filter</label>
+                    <select id="shaderOverlay" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-rose-400 cursor-pointer">
+                        <option value="none">Standard Clean Frame</option>
+                        <option value="grain">Retro Vintage Film Grain</option>
+                        <option value="cyber">Cyberpunk Matrix Noise</option>
                     </select>
-                </div>
-
-                <!-- Text Font Size Slider -->
-                <div class="flex flex-col gap-2">
-                    <div class="flex justify-between text-xs font-medium text-slate-400">
-                        <span>Font Size Weight</span>
-                        <span id="fontSizeVal" class="font-mono text-cyan-400 text-[11px]">80px</span>
-                    </div>
-                    <input type="range" id="sliderFontSize" min="20" max="200" value="80" class="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400">
-                </div>
-
-                <!-- Text Vertical Position Tracking Coordinate (Y-Axis) -->
-                <div class="flex flex-col gap-2">
-                    <div class="flex justify-between text-xs font-medium text-slate-400">
-                        <span>Vertical Placement (Y)</span>
-                        <span id="textYVal" class="font-mono text-cyan-400 text-[11px]">85%</span>
-                    </div>
-                    <input type="range" id="sliderTextY" min="5" max="95" value="85" class="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400">
-                </div>
-            </div>
-
-            <hr class="border-slate-800/60">
-
-            <!-- 🎛️ SECTION C: LAYOUT SLIDERS BLOCK -->
-            <div class="flex flex-col gap-4">
-                <div>
-                    <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Frame Dimensions</h2>
-                </div>
-                <div class="flex flex-col gap-2">
-                    <div class="flex justify-between text-xs font-medium text-slate-400"><span>Canvas Padding</span><span id="padVal" class="font-mono text-cyan-400 text-[11px]">40px</span></div>
-                    <input type="range" id="sliderPadding" min="10" max="120" value="40" class="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400">
-                </div>
-                <div class="flex flex-col gap-2">
-                    <div class="flex justify-between text-xs font-medium text-slate-400"><span>Corner Radius</span><span id="radiusVal" class="font-mono text-cyan-400 text-[11px]">12px</span></div>
-                    <input type="range" id="sliderRadius" min="0" max="40" value="12" class="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400">
-                </div>
-                <div class="flex flex-col gap-2">
-                    <div class="flex justify-between text-xs font-medium text-slate-400"><span>Drop Shadow</span><span id="shadowVal" class="font-mono text-cyan-400 text-[11px]">15px</span></div>
-                    <input type="range" id="sliderShadow" min="0" max="50" value="15" class="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400">
                 </div>
             </div>
         </aside>
