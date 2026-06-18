@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SnapVerse Effect // Universal Canvas Asset Studio</title>
+    <title>SnapVerse Effect Pro // AI Poster Matrix Studio</title>
     <!-- Tailwind CSS Engine -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- FontAwesome Premium Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Matrix for Poster Styling -->
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@400;800&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
     <style>
         .figma-grid {
             background-size: 20px 20px;
             background-image: linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
                               linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
         }
-        /* Custom Smooth Scale Animations */
         @keyframes pulseNeon {
             0%, 100% { box-shadow: 0 0 10px rgba(6, 182, 212, 0.2); }
             50% { box-shadow: 0 0 20px rgba(6, 182, 212, 0.5); }
@@ -27,15 +28,15 @@
     <!-- Top Navigation Bar -->
     <header class="h-16 border-b border-slate-800/60 bg-[#0f172a]/80 backdrop-blur-md flex items-center justify-between px-6 z-50 relative">
         <div class="flex items-center gap-3">
-            <div class="h-8 w-8 bg-gradient-to-tr from-cyan-500 to-indigo-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg shadow-cyan-500/20 transition-transform hover:rotate-12 duration-300">S</div>
-            <h1 class="text-lg font-semibold tracking-wider bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">SnapVerse <span class="text-cyan-400 font-mono text-sm">Effect v1.1</span></h1>
+            <div class="h-8 w-8 bg-gradient-to-tr from-cyan-500 to-indigo-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg shadow-cyan-500/20">S</div>
+            <h1 class="text-lg font-semibold tracking-wider bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">SnapVerse <span class="text-cyan-400 font-mono text-sm">Poster Studio v1.2</span></h1>
         </div>
         <div class="flex items-center gap-3">
-            <button id="copyBtn" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-sm font-medium rounded-lg transition-all duration-200 active:scale-95 flex items-center gap-2 border border-slate-700 cursor-pointer">
+            <button id="copyBtn" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-sm font-medium rounded-lg transition-all active:scale-95 flex items-center gap-2 border border-slate-700 cursor-pointer">
                 <i class="fa-regular fa-copy text-cyan-400"></i> Copy to Clipboard
             </button>
-            <button id="downloadBtn" class="px-4 py-2 bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-600 hover:to-indigo-700 text-sm font-semibold rounded-lg shadow-lg shadow-cyan-500/10 transition-all duration-200 active:scale-95 flex items-center gap-2 cursor-pointer">
-                <i class="fa-solid fa-cloud-arrow-down"></i> Export 4K PNG
+            <button id="downloadBtn" class="px-4 py-2 bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-600 hover:to-indigo-700 text-sm font-semibold rounded-lg shadow-lg shadow-cyan-500/10 transition-all active:scale-95 flex items-center gap-2 cursor-pointer">
+                <i class="fa-solid fa-cloud-arrow-down"></i> Export 4K Poster
             </button>
         </div>
     </header>
@@ -45,16 +46,14 @@
         
         <!-- Left Section: Interactive Canvas Playground -->
         <section id="dropZone" class="flex-1 figma-grid bg-[#070a13] relative flex items-center justify-center p-8 transition-all duration-300">
-            
-            <!-- Hidden Canvas for rendering final image -->
             <canvas id="mainCanvas" class="hidden"></canvas>
 
-            <!-- Initial State Drop Visual Target -->
-            <div id="uploadPrompt" class="text-center p-8 border-2 border-dashed border-slate-700/60 hover:border-cyan-500/50 bg-[#0f172a]/40 backdrop-blur-sm rounded-2xl max-w-md transition-all duration-300 cursor-pointer group hover:scale-[1.02]">
+            <!-- Initial Drop Visual Target -->
+            <div id="uploadPrompt" class="text-center p-8 border-2 border-dashed border-slate-700/60 hover:border-cyan-500/50 bg-[#0f172a]/40 backdrop-blur-sm rounded-2xl max-w-md transition-all cursor-pointer group">
                 <div class="w-16 h-16 bg-slate-800/80 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 group-hover:bg-cyan-500/10 transition-all border border-slate-700">
-                    <i class="fa-solid fa-images text-2xl text-slate-400 group-hover:text-cyan-400 transition-all"></i>
+                    <i class="fa-solid fa-wand-magic-sparkles text-2xl text-slate-400 group-hover:text-cyan-400 transition-all"></i>
                 </div>
-                <h3 class="text-base font-semibold text-slate-200">Drag & Drop your screenshot into SnapVerse</h3>
+                <h3 class="text-base font-semibold text-slate-200">Drop an image to build an AI-Style Poster</h3>
                 <p class="text-xs text-slate-400 mt-1 mb-4">Supports PNG, JPG, SVG up to 50MB</p>
                 <label class="px-4 py-2 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 text-xs font-semibold rounded-md border border-cyan-500/30 cursor-pointer transition-all">
                     Browse File
@@ -62,122 +61,98 @@
                 </label>
             </div>
 
-            <!-- Preview Container wrapper -->
-            <div id="previewContainer" class="hidden max-w-full max-h-full shadow-2xl relative transition-all duration-300 transform scale-95 opacity-0 animate-fade-in">
-                <img id="viewImage" src="" alt="SnapVerse Preview" class="object-contain max-h-[70vh] rounded-none transition-all duration-200">
+            <!-- Preview Wrapper Container -->
+            <div id="previewContainer" class="hidden max-w-full max-h-full shadow-2xl relative transition-all duration-300 transform scale-95 opacity-0">
+                <img id="viewImage" src="" alt="SnapVerse Preview" class="object-contain max-h-[70vh] transition-all">
             </div>
 
-            <!-- Fixed Overlay Alert Notification -->
+            <!-- Toast Messages Panel -->
             <div id="toast" class="absolute bottom-6 left-6 transform translate-y-20 opacity-0 bg-slate-900/90 border border-emerald-500/30 text-emerald-400 px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 transition-all duration-300 backdrop-blur-md z-50">
                 <div class="h-6 w-6 bg-emerald-500/10 rounded-full flex items-center justify-center"><i class="fa-solid fa-check text-xs"></i></div>
-                <span id="toastMsg" class="text-xs font-medium tracking-wide">SnapVerse Engine Lock Completed</span>
+                <span id="toastMsg" class="text-xs font-medium tracking-wide">Poster Layout Processed</span>
             </div>
         </section>
 
-        <!-- Right Section: Floating Console Panel Controls -->
-        <aside class="w-80 border-l border-slate-800/60 bg-[#0f172a]/90 backdrop-blur-md p-6 flex flex-col gap-6 overflow-y-auto h-full shadow-2xl transition-all duration-300">
-            <div>
-                <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Canvas Layout</h2>
-                <p class="text-[11px] text-slate-500">Modify dynamic SnapVerse workspace macros</p>
-            </div>
-
-            <!-- Background Studio Control -->
-            <div class="flex flex-col gap-2">
-                <label class="text-xs font-medium text-slate-300 flex justify-between">
-                    <span>Studio Background</span>
-                </label>
-                <div class="grid grid-cols-4 gap-2" id="bgSelectors">
-                    <button class="h-8 rounded bg-gradient-to-tr from-cyan-500 to-blue-500 border-2 border-white cursor-pointer transition-all duration-200 hover:scale-105" data-bg="cyan-blue"></button>
-                    <button class="h-8 rounded bg-gradient-to-tr from-purple-600 to-pink-500 border border-transparent hover:border-slate-500 cursor-pointer transition-all duration-200 hover:scale-105" data-bg="purple-pink"></button>
-                    <button class="h-8 rounded bg-gradient-to-tr from-amber-500 to-orange-600 border border-transparent hover:border-slate-500 cursor-pointer transition-all duration-200 hover:scale-105" data-bg="amber-orange"></button>
-                    <button class="h-8 rounded bg-slate-900 border border-transparent hover:border-slate-500 cursor-pointer transition-all duration-200 hover:scale-105" data-bg="dark-slate"></button>
-                </div>
-            </div>
-
-            <hr class="border-slate-800/60">
-
-            <!-- 🔥 NEW: TRENDING PRESET FILTERS MATRIX -->
+        <!-- Right Section: Canva Style Controls Console -->
+        <aside class="w-80 border-l border-slate-800/60 bg-[#0f172a]/90 backdrop-blur-md p-6 flex flex-col gap-6 overflow-y-auto h-full shadow-2xl">
+            
+            <!-- 🪐 SECTION A: AI & COMPOSITION PRESETS -->
             <div class="flex flex-col gap-3">
                 <div>
-                    <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Trending Direct Presets</h2>
-                    <p class="text-[11px] text-slate-500">Apply instant 1-Click algorithmic styles</p>
+                    <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Ecosystem Styling</h2>
+                    <p class="text-[11px] text-slate-500">Select structural rendering matrix shaders</p>
                 </div>
                 <div class="grid grid-cols-2 gap-2" id="presetSelectors">
-                    <button class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-medium rounded-lg transition-all text-center border-2 border-cyan-500/80 text-cyan-400 pulse-active cursor-pointer" data-preset="none">
-                        ✨ Original Base
-                    </button>
-                    <button class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-medium rounded-lg transition-all text-center border border-slate-700 text-slate-300 cursor-pointer" data-preset="iphone">
-                        📸 iPhone Trend
-                    </button>
-                    <button class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-medium rounded-lg transition-all text-center border border-slate-700 text-slate-300 cursor-pointer" data-preset="cartoon">
-                        🎨 Comic Cartoon
-                    </button>
-                    <button class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-medium rounded-lg transition-all text-center border border-slate-700 text-slate-300 cursor-pointer" data-preset="cyber">
-                        🌆 Cyber Neon
-                    </button>
+                    <button class="px-2 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-medium rounded-lg text-center border-2 border-cyan-500/80 text-cyan-400 pulse-active cursor-pointer" data-preset="none">✨ Standard</button>
+                    <button class="px-2 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-medium rounded-lg text-center border border-slate-700 text-slate-300 cursor-pointer" data-preset="poster">🔥 AI Poster</button>
+                    <button class="px-2 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-medium rounded-lg text-center border border-slate-700 text-slate-300 cursor-pointer" data-preset="iphone">📸 iOS Mood</button>
+                    <button class="px-2 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-medium rounded-lg text-center border border-slate-700 text-slate-300 cursor-pointer" data-preset="cyber">🌆 Cyber Neon</button>
                 </div>
             </div>
 
             <hr class="border-slate-800/60">
 
-            <!-- Control Sliders Block -->
-            <div class="flex flex-col gap-5">
+            <!-- ✍️ NEW SECTION B: CANVA-STYLE TEXT ENGINE LABELS -->
+            <div class="flex flex-col gap-4">
                 <div>
-                    <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Mockup Properties</h2>
+                    <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Canvas Text Layer</h2>
+                    <p class="text-[11px] text-slate-500">Inject custom typographic content nodes</p>
                 </div>
 
-                <!-- Padding Slider -->
+                <!-- Text Value Input Field -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-[11px] font-medium text-slate-400 uppercase">Poster Heading</label>
+                    <input type="text" id="posterText" value="SNAPVERSE DIRECT" placeholder="Type headline..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400 transition-all">
+                </div>
+
+                <!-- Font Family Select Node -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-[11px] font-medium text-slate-400 uppercase">Font Typography</label>
+                    <select id="fontFamily" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400 transition-all cursor-pointer">
+                        <option value="Bebas Neue">Bebas Neue (Heavy Impact)</option>
+                        <option value="Anton">Anton (Bold Condensed)</option>
+                        <option value="Playfair Display">Playfair Display (Premium Luxury)</option>
+                        <option value="Inter">Inter Black (Clean Tech)</option>
+                    </select>
+                </div>
+
+                <!-- Text Font Size Slider -->
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between text-xs font-medium text-slate-400">
-                        <span>Canvas Padding</span>
-                        <span id="padVal" class="font-mono text-cyan-400 text-[11px]">40px</span>
+                        <span>Font Size Weight</span>
+                        <span id="fontSizeVal" class="font-mono text-cyan-400 text-[11px]">80px</span>
                     </div>
+                    <input type="range" id="sliderFontSize" min="20" max="200" value="80" class="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400">
+                </div>
+
+                <!-- Text Vertical Position Tracking Coordinate (Y-Axis) -->
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between text-xs font-medium text-slate-400">
+                        <span>Vertical Placement (Y)</span>
+                        <span id="textYVal" class="font-mono text-cyan-400 text-[11px]">85%</span>
+                    </div>
+                    <input type="range" id="sliderTextY" min="5" max="95" value="85" class="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400">
+                </div>
+            </div>
+
+            <hr class="border-slate-800/60">
+
+            <!-- 🎛️ SECTION C: LAYOUT SLIDERS BLOCK -->
+            <div class="flex flex-col gap-4">
+                <div>
+                    <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Frame Dimensions</h2>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between text-xs font-medium text-slate-400"><span>Canvas Padding</span><span id="padVal" class="font-mono text-cyan-400 text-[11px]">40px</span></div>
                     <input type="range" id="sliderPadding" min="10" max="120" value="40" class="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400">
                 </div>
-
-                <!-- Roundness Slider -->
                 <div class="flex flex-col gap-2">
-                    <div class="flex justify-between text-xs font-medium text-slate-400">
-                        <span>Corner Radius</span>
-                        <span id="radiusVal" class="font-mono text-cyan-400 text-[11px]">12px</span>
-                    </div>
+                    <div class="flex justify-between text-xs font-medium text-slate-400"><span>Corner Radius</span><span id="radiusVal" class="font-mono text-cyan-400 text-[11px]">12px</span></div>
                     <input type="range" id="sliderRadius" min="0" max="40" value="12" class="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400">
                 </div>
-
-                <!-- Shadow Slider -->
                 <div class="flex flex-col gap-2">
-                    <div class="flex justify-between text-xs font-medium text-slate-400">
-                        <span>Drop Shadow</span>
-                        <span id="shadowVal" class="font-mono text-cyan-400 text-[11px]">15px</span>
-                    </div>
+                    <div class="flex justify-between text-xs font-medium text-slate-400"><span>Drop Shadow</span><span id="shadowVal" class="font-mono text-cyan-400 text-[11px]">15px</span></div>
                     <input type="range" id="sliderShadow" min="0" max="50" value="15" class="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400">
-                </div>
-            </div>
-
-            <hr class="border-slate-800/60">
-
-            <!-- Image Filters Block -->
-            <div class="flex flex-col gap-5">
-                <div>
-                    <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Shader Manual Filters</h2>
-                </div>
-
-                <!-- Brightness Slider -->
-                <div class="flex flex-col gap-2">
-                    <div class="flex justify-between text-xs font-medium text-slate-400">
-                        <span>Brightness</span>
-                        <span id="brightVal" class="font-mono text-cyan-400 text-[11px]">100%</span>
-                    </div>
-                    <input type="range" id="sliderBrightness" min="50" max="150" value="100" class="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400">
-                </div>
-
-                <!-- Blur Slider -->
-                <div class="flex flex-col gap-2">
-                    <div class="flex justify-between text-xs font-medium text-slate-400">
-                        <span>Pixelation Blur</span>
-                        <span id="blurVal" class="font-mono text-cyan-400 text-[11px]">0px</span>
-                    </div>
-                    <input type="range" id="sliderBlur" min="0" max="20" value="0" class="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400">
                 </div>
             </div>
         </aside>

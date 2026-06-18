@@ -1,4 +1,3 @@
-// 🌌 SnapVerse Engine Core Modules Mapping
 const dropZone = document.getElementById('dropZone');
 const fileInput = document.getElementById('fileInput');
 const uploadPrompt = document.getElementById('uploadPrompt');
@@ -7,24 +6,25 @@ const viewImage = document.getElementById('viewImage');
 const mainCanvas = document.getElementById('mainCanvas');
 const ctx = mainCanvas.getContext('2d');
 
-// ⚙️ Sliders & Value Counters References
+// Sliders and Selectors Mapping
 const sliderPadding = document.getElementById('sliderPadding');
 const sliderRadius = document.getElementById('sliderRadius');
 const sliderShadow = document.getElementById('sliderShadow');
-const sliderBrightness = document.getElementById('sliderBrightness');
-const sliderBlur = document.getElementById('sliderBlur');
+const posterText = document.getElementById('posterText');
+const fontFamily = document.getElementById('fontFamily');
+const sliderFontSize = document.getElementById('sliderFontSize');
+const sliderTextY = document.getElementById('sliderTextY');
 
 const padVal = document.getElementById('padVal');
 const radiusVal = document.getElementById('radiusVal');
 const shadowVal = document.getElementById('shadowVal');
-const brightVal = document.getElementById('brightVal');
-const blurVal = document.getElementById('blurVal');
+const fontSizeVal = document.getElementById('fontSizeVal');
+const textYVal = document.getElementById('textYVal');
 
-const bgSelectors = document.querySelectorAll('#bgSelectors button');
 const presetButtons = document.querySelectorAll('#presetSelectors button');
 
 let activeBgType = 'cyan-blue'; 
-let activePreset = 'none'; // Track active matrix filter shader state
+let activePreset = 'none'; 
 let loadedImage = null;
 
 const gradientMap = {
@@ -34,33 +34,20 @@ const gradientMap = {
     'dark-slate': { start: '#0f172a', end: '#020617' }
 };
 
-// --- 🔒 DRAG & DROP BOUNDARY INTERCEPTORS ---
-['dragenter', 'dragover'].forEach(eventName => {
-    dropZone.addEventListener(eventName, (e) => {
-        e.preventDefault();
-        dropZone.classList.add('border-cyan-500/40', 'bg-cyan-950/10');
-    }, false);
+// Ingestion Threads
+['dragenter', 'dragover'].forEach(name => {
+    dropZone.addEventListener(name, (e) => { e.preventDefault(); dropZone.classList.add('bg-cyan-950/10'); });
 });
-
-['dragleave', 'drop'].forEach(eventName => {
-    dropZone.addEventListener(eventName, (e) => {
-        e.preventDefault();
-        dropZone.classList.remove('border-cyan-500/40', 'bg-cyan-950/10');
-    }, false);
+['dragleave', 'drop'].forEach(name => {
+    dropZone.addEventListener(name, (e) => { e.preventDefault(); dropZone.classList.remove('bg-cyan-950/10'); });
 });
-
 dropZone.addEventListener('drop', (e) => {
-    const dt = e.dataTransfer;
-    const files = dt.files;
-    if (files.length) handleImageStream(files[0]);
+    e.preventDefault();
+    if (e.dataTransfer.files.length) handleImageStream(e.dataTransfer.files[0]);
 });
-
 uploadPrompt.addEventListener('click', () => fileInput.click());
-fileInput.addEventListener('change', (e) => {
-    if (e.target.files.length) handleImageStream(e.target.files[0]);
-});
+fileInput.addEventListener('change', (e) => { if (e.target.files.length) handleImageStream(e.target.files[0]); });
 
-// --- ⚙️ FILE INGESTION LAYER ---
 function handleImageStream(file) {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -71,34 +58,31 @@ function handleImageStream(file) {
             loadedImage = img;
             uploadPrompt.classList.add('hidden');
             previewContainer.classList.remove('hidden');
-            
-            // Trigger entry fade-in animations vectors
-            setTimeout(() => {
-                previewContainer.classList.remove('scale-95', 'opacity-0');
-            }, 50);
-
-            renderSnapMatrix(); 
-            showNotification("Asset successfully locked into SnapVerse Environment");
+            setTimeout(() => previewContainer.classList.remove('scale-95', 'opacity-0'), 50);
+            renderSnapMatrix();
+            showNotification("Poster workspace frame buffer initialized.");
         };
     };
 }
 
-// --- 🎨 CANVAS RENDERING MATRIX ENGINE ---
+// --- 🎨 HARDCORE POSTER & TYPOGRAPHY RENDERING ENGINE ---
 function renderSnapMatrix() {
     if (!loadedImage) return;
 
     const padding = parseInt(sliderPadding.value);
     const radius = parseInt(sliderRadius.value);
     const shadowBlur = parseInt(sliderShadow.value);
-    let brightness = sliderBrightness.value;
-    let pixelBlur = sliderBlur.value;
+    const textStr = posterText.value;
+    const currentFont = fontFamily.value;
+    const baseFontSize = parseInt(sliderFontSize.value);
+    const placementYPercent = parseInt(sliderTextY.value);
 
-    // Sync baseline counter readouts
+    // Sync baseline text readings and node values
     padVal.textContent = `${padding}px`;
     radiusVal.textContent = `${radius}px`;
     shadowVal.textContent = `${shadowBlur}px`;
-    brightVal.textContent = `${brightness}%`;
-    blurVal.textContent = `${pixelBlur}px`;
+    fontSizeVal.textContent = `${baseFontSize}px`;
+    textYVal.textContent = `${placementYPercent}%`;
 
     const imgWidth = loadedImage.width;
     const imgHeight = loadedImage.height;
@@ -109,19 +93,19 @@ function renderSnapMatrix() {
 
     ctx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
 
-    // 1. Background Frame Render Loop
+    // 1. Draw Background Framework
     const grad = ctx.createLinearGradient(0, 0, mainCanvas.width, mainCanvas.height);
     grad.addColorStop(0, gradientMap[activeBgType].start);
     grad.addColorStop(1, gradientMap[activeBgType].end);
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, mainCanvas.width, mainCanvas.height);
 
-    // 2. Setup Shadows Space Layer
+    // 2. Setup Drop Shadow Layers
     if (shadowBlur > 0) {
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.55)';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
         ctx.shadowBlur = (imgWidth * (shadowBlur / 400));
         ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = (imgWidth * (shadowBlur / 600));
+        ctx.shadowOffsetY = (imgWidth * (shadowBlur / 500));
     }
 
     ctx.save();
@@ -129,7 +113,7 @@ function renderSnapMatrix() {
     const targetY = computedPad;
     const targetRadius = (imgWidth * (radius / 300));
 
-    // 3. Mockup Corner Rounding Clip Path Trace
+    // 3. Round Corner Path Processing Loop
     ctx.beginPath();
     ctx.moveTo(targetX + targetRadius, targetY);
     ctx.lineTo(targetX + imgWidth - targetRadius, targetY);
@@ -143,95 +127,91 @@ function renderSnapMatrix() {
     ctx.closePath();
     ctx.clip();
 
-    // 4. Algorithmic Shader Filters Routing
-    let filterString = `brightness(${brightness}%) blur(${pixelBlur}px)`;
-    
+    // 4. Ingest Preset Matrix Processing Filters array
+    let filterString = "none";
     if (activePreset === 'iphone') {
-        // iPhone Trend Lookup: Warm saturations with high-contrast luminance pops
-        filterString += ` saturate(160%) contrast(115%) sepia(10%)`;
-    } else if (activePreset === 'cartoon') {
-        // Comic Cartoon Base Layer Style Map
-        filterString += ` contrast(180%) saturate(140%) grayscale(10%)`;
+        filterString = "saturate(165%) contrast(110%) sepia(8%)";
     } else if (activePreset === 'cyber') {
-        // Neon Cyberpunk Cyber Color Inversion Map
-        filterString += ` hue-rotate(290deg) saturate(200%) contrast(110%)`;
+        filterString = "hue-rotate(285deg) saturate(210%) contrast(120%)";
+    } else if (activePreset === 'poster') {
+        // 🔥 AI High Contrast Poster Look Shader Matrix Configuration
+        filterString = "contrast(190%) saturate(175%) brightness(95%)";
     }
-
+    
     ctx.filter = filterString;
     ctx.drawImage(loadedImage, targetX, targetY, imgWidth, imgHeight);
     ctx.restore();
 
-    // 5. Hard Draw Cartoon Comic Structural Borders Layer if Active
-    if (activePreset === 'cartoon') {
+    // 5. 🔥 NEW: CANVA VECTOR TEXT OVERLAY LAYERING ENGINE
+    if (textStr.trim() !== "") {
         ctx.save();
-        ctx.strokeStyle = '#000000';
-        ctx.lineWidth = (imgWidth * 0.015); // Dynamic trace border weight mapping
-        ctx.strokeRect(targetX, targetY, imgWidth, imgHeight);
+        
+        // Dynamically compute absolute font tracking properties mapping to total canvas width
+        const scaleFactor = imgWidth / 600; 
+        const computedFontSize = baseFontSize * scaleFactor;
+        
+        ctx.font = `italic ${computedFontSize}px "${currentFont}", sans-serif`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+
+        // Calculate absolute coordinate alignment matrices
+        const textTargetX = mainCanvas.width / 2;
+        const textTargetY = targetY + (imgHeight * (placementYPercent / 100));
+
+        // Poster Text Effects Array Mapping
+        if (activePreset === 'poster') {
+            // High-Impact Editorial Dual Text Layer Rendering Look
+            ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
+            ctx.fillText(textStr.toUpperCase(), textTargetX + (4 * scaleFactor), textTargetY + (4 * scaleFactor));
+            ctx.fillStyle = "#facc15"; // AI Bold Cyber Yellow
+        } else if (activePreset === 'cyber') {
+            ctx.fillStyle = "#00ffff"; // Glowing Tron Neon Cyan Text Frame
+            ctx.shadowColor = "#00ffff";
+            ctx.shadowBlur = 15 * scaleFactor;
+        } else {
+            ctx.fillStyle = "#ffffff"; // Standard Solid Clean Minimalist White Layout
+        }
+
+        ctx.fillText(textStr.toUpperCase(), textTargetX, textTargetY);
         ctx.restore();
     }
     
     viewImage.src = mainCanvas.toDataURL('image/png');
 }
 
-// --- 🎛️ CORE LISTENERS MANAGEMENT CORE ---
-[sliderPadding, sliderRadius, sliderShadow, sliderBrightness, sliderBlur].forEach(slider => {
-    slider.addEventListener('input', renderSnapMatrix);
-});
+// Control Interfaces Hooks Execution
+[sliderPadding, sliderRadius, sliderShadow, sliderFontSize, sliderTextY].forEach(s => s.addEventListener('input', renderSnapMatrix));
+posterText.addEventListener('input', renderSnapMatrix);
+fontFamily.addEventListener('change', renderSnapMatrix);
 
-bgSelectors.forEach(btn => {
-    btn.addEventListener('click', () => {
-        bgSelectors.forEach(b => b.classList.remove('border-white'));
-        btn.classList.add('border-white');
-        activeBgType = btn.getAttribute('data-bg');
-        renderSnapMatrix();
-    });
-});
-
-// Preset Buttons Event Matrix
 presetButtons.forEach(btn => {
     btn.addEventListener('click', () => {
-        presetButtons.forEach(b => {
-            b.classList.remove('border-cyan-500/80', 'text-cyan-400', 'pulse-active');
-            b.classList.add('border-slate-700', 'text-slate-300');
-        });
-        btn.classList.remove('border-slate-700', 'text-slate-300');
+        presetButtons.forEach(b => b.classList.remove('border-cyan-500/80', 'text-cyan-400', 'pulse-active'));
         btn.classList.add('border-cyan-500/80', 'text-cyan-400', 'pulse-active');
-        
         activePreset = btn.getAttribute('data-preset');
         renderSnapMatrix();
     });
 });
 
-// --- 💾 EXPORTER CHANNELS ---
 document.getElementById('downloadBtn').addEventListener('click', () => {
-    if (!loadedImage) return alert("Ingest an asset into SnapVerse first, bhai! 🤦‍♂️");
+    if (!loadedImage) return alert("Ingest an asset into SnapVerse first, bhai!");
     const a = document.createElement('a');
     a.href = mainCanvas.toDataURL('image/png');
-    a.download = `SnapVerse_${activePreset}_${Date.now()}.png`;
-    document.body.appendChild(a);
+    a.download = `SnapVerse_Poster_${Date.now()}.png`;
     a.click();
-    document.body.removeChild(a);
-    showNotification("High-Fidelity 4K Asset Saved!");
 });
 
-document.getElementById('copyBtn').addEventListener('click', async () => {
-    if (!loadedImage) return alert("No active asset matrix layer, bhai!");
-    try {
-        mainCanvas.toBlob(async (blob) => {
-            const item = new ClipboardItem({ "image/png": blob });
-            await navigator.clipboard.write([item]);
-            showNotification("Asset copied straight to Clipboard!");
-        });
-    } catch (err) {
-        alert("Clipboard channel block detected inside host layout sandbox rules.");
-    }
+document.getElementById('copyBtn').addEventListener('click', () => {
+    if (!loadedImage) return alert("No active asset schema found.");
+    mainCanvas.toBlob(async (blob) => {
+        await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+        showNotification("Poster copied directly to Clipboard!");
+    });
 });
 
-function showNotification(message) {
+function showNotification(msg) {
     const toast = document.getElementById('toast');
-    document.getElementById('toastMsg').textContent = message;
+    document.getElementById('toastMsg').textContent = msg;
     toast.classList.remove('translate-y-20', 'opacity-0');
-    setTimeout(() => {
-        toast.classList.add('translate-y-20', 'opacity-0');
-    }, 3500);
+    setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3500);
 }
