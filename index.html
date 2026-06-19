@@ -3,88 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SnapVerse Glow AI // Aesthetic Grooming Suite</title>
+    <title>SnapMatch Flux // AI Bonding Matrix</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
+    
+    <style>
+        /* 🧪 HARDCORE NEON GLOW FILTERS AND ANIMATIONS MATRIX */
+        @keyframes subtleBreathe {
+            0%, 100% { filter: drop-shadow(0 0 15px rgba(244, 63, 94, 0.2)); transform: scale(1); }
+            50% { filter: drop-shadow(0 0 30px rgba(139, 92, 246, 0.5)); transform: scale(1.02); }
+        }
+        .neon-glow-ring {
+            box-shadow: inset 0 0 20px rgba(244, 63, 94, 0.3), 0 0 25px rgba(139, 92, 246, 0.2);
+            animation: subtleBreathe 3s infinite ease-in-out;
+        }
+        .text-glow-neon {
+            text-shadow: 0 0 10px rgba(244, 63, 94, 0.6), 0 0 20px rgba(139, 92, 246, 0.4);
+        }
+    </style>
 </head>
-<body class="bg-[#0b0f17] text-slate-200 min-h-screen font-sans overflow-x-hidden">
+<body class="bg-[#07050d] text-slate-200 min-h-screen font-sans overflow-x-hidden">
 
-    <header class="h-16 border-b border-slate-800/60 bg-[#0f172a]/80 backdrop-blur-md flex items-center justify-between px-6 z-50 relative">
+    <header class="h-16 border-b border-rose-950/40 bg-[#0f0a1c]/80 backdrop-blur-md flex items-center justify-between px-6 z-50 relative">
         <div class="flex items-center gap-3">
-            <div class="h-8 w-8 bg-gradient-to-tr from-cyan-400 to-violet-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg shadow-cyan-500/20">✨</div>
-            <h1 class="text-lg font-semibold tracking-wider bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">SnapVerse <span class="text-violet-400 font-mono text-sm">Glow AI v2.0</span></h1>
+            <div class="h-8 w-8 bg-gradient-to-tr from-rose-500 to-violet-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg shadow-rose-500/20">❤️</div>
+            <h1 class="text-lg font-semibold tracking-wider bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">SnapMatch <span class="text-rose-400 font-mono text-sm">Flux AI v1.1</span></h1>
         </div>
-        <div class="text-xs font-mono text-violet-400 border border-violet-500/30 bg-violet-500/5 px-3 py-1 rounded-full">STYLE ROUTING PROFILED</div>
+        <div class="text-xs font-mono text-rose-400 border border-rose-500/30 bg-rose-500/5 px-3 py-1 rounded-full text-glow-neon">GLOW MATRIX SHADERS LOCKED</div>
     </header>
 
     <main class="flex flex-col lg:flex-row h-[calc(100vh-64px)] w-full overflow-hidden">
         
-        <section class="flex-1 bg-[#06080f] relative flex flex-col items-center justify-center p-6 border-b lg:border-b-0 lg:border-r border-slate-800/50">
-            <canvas id="outputCanvas" class="hidden max-h-[55vh] max-w-full shadow-2xl rounded-2xl border border-slate-800 bg-black"></canvas>
+        <section class="flex-1 bg-[#040307] p-8 flex flex-col items-center justify-center gap-8 overflow-y-auto">
             
-            <div id="uploadPrompt" class="text-center p-8 border-2 border-dashed border-slate-700/60 bg-[#0f172a]/40 backdrop-blur-sm rounded-2xl max-w-md transition-all cursor-pointer group">
-                <div class="w-16 h-16 bg-slate-800/80 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-violet-500/10 border border-slate-700 transition-all">
-                    <i class="fa-solid fa-camera text-2xl text-slate-400 group-hover:text-violet-400 transition-all"></i>
+            <div class="flex flex-col md:flex-row gap-6 w-full max-w-2xl justify-center">
+                <div class="flex-1 border-2 border-dashed border-slate-800/80 bg-[#120f1d]/30 hover:border-rose-500/40 rounded-2xl p-6 text-center relative min-h-[250px] flex flex-col items-center justify-center transition-all duration-300" id="boxA">
+                    <input type="file" id="fileA" class="hidden" accept="image/*">
+                    <div class="inner-content cursor-pointer" onclick="document.getElementById('fileA').value = ''; document.getElementById('fileA').click()">
+                        <i class="fa-solid fa-user-circle text-3xl text-rose-400/40 mb-2 transition-transform hover:scale-110"></i>
+                        <p class="text-xs font-medium text-slate-400">Upload Partner Alpha</p>
+                    </div>
+                    <canvas id="canvasA" class="absolute inset-0 w-full h-full object-cover rounded-2xl hidden"></canvas>
                 </div>
-                <h3 class="text-base font-semibold text-slate-200">Load Portrait Blueprint</h3>
-                <p class="text-xs text-slate-400 mt-1 mb-4">Ingest image to run dynamic style mapping logic</p>
-                <label class="px-4 py-2 bg-violet-500/10 hover:bg-violet-500/20 text-violet-400 text-xs font-semibold rounded-md border border-violet-500/30 cursor-pointer transition-all">
-                    Browse Image
-                    <input type="file" id="fileInput" class="hidden" accept="image/*">
-                </label>
+
+                <div class="flex-1 border-2 border-dashed border-slate-800/80 bg-[#120f1d]/30 hover:border-violet-500/40 rounded-2xl p-6 text-center relative min-h-[250px] flex flex-col items-center justify-center transition-all duration-300" id="boxB">
+                    <input type="file" id="fileB" class="hidden" accept="image/*">
+                    <div class="inner-content cursor-pointer" onclick="document.getElementById('fileB').value = ''; document.getElementById('fileB').click()">
+                        <i class="fa-solid fa-user-circle text-3xl text-violet-400/40 mb-2 transition-transform hover:scale-110"></i>
+                        <p class="text-xs font-medium text-slate-400">Upload Partner Beta</p>
+                    </div>
+                    <canvas id="canvasB" class="absolute inset-0 w-full h-full object-cover rounded-2xl hidden"></canvas>
+                </div>
             </div>
 
-            <video id="webcamVideo" class="hidden" playsinline></video>
-            <button id="scanBtn" class="mt-4 px-6 py-2.5 bg-gradient-to-r from-violet-500 to-cyan-500 font-semibold text-xs rounded-lg shadow-lg shadow-violet-500/10 hover:opacity-90 transition-all cursor-pointer">
-                <i class="fa-solid fa-bolt mr-1"></i> Scan Facial Geometries
+            <button id="calculateBtn" class="px-8 py-3 bg-gradient-to-r from-rose-500 to-violet-600 font-semibold text-sm rounded-xl shadow-lg shadow-rose-500/20 hover:opacity-90 transition-all duration-200 active:scale-95 flex items-center gap-2 cursor-pointer">
+                <i class="fa-solid fa-heart-pulse mr-1 animate-pulse"></i> Compute Bonding Matrix
             </button>
         </section>
 
-        <aside class="w-full lg:w-[420px] bg-[#0e1322]/90 backdrop-blur-md p-6 flex flex-col gap-6 overflow-y-auto h-full shadow-2xl">
+        <aside class="w-full lg:w-[420px] bg-[#0e0a17]/95 backdrop-blur-md p-6 flex flex-col gap-6 overflow-y-auto h-full shadow-2xl border-l border-rose-950/20">
             <div>
-                <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Analysis Output</h2>
-                <div class="flex items-center gap-2 mt-2">
-                    <span class="text-xs text-slate-500">Detected Profile:</span>
-                    <span id="detectedShape" class="text-sm font-mono font-bold text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded">Awaiting Matrix Scan...</span>
-                </div>
+                <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Matrix Analysis</h2>
+                <p class="text-[11px] text-slate-500">Neural facial symmetry calculation diagnostics</p>
             </div>
 
             <hr class="border-slate-800/60">
 
-            <div id="resultsMatrix" class="opacity-40 pointer-events-none transition-all duration-300 flex flex-col gap-5">
+            <div id="resultsPanel" class="opacity-10 pointer-events-none transition-all duration-500 transform scale-95 flex flex-col items-center gap-6">
                 
-                <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 flex gap-3">
-                    <div class="w-10 h-10 bg-violet-500/10 border border-violet-500/20 rounded-lg flex items-center justify-center text-violet-400 shrink-0"><i class="fa-solid fa-scissors"></i></div>
-                    <div>
-                        <h3 class="text-xs font-bold uppercase text-slate-300 tracking-wider">Recommended Hairstyle</h3>
-                        <p id="hairText" class="text-xs text-slate-400 mt-1">Select scan to generate dynamic visual blueprints.</p>
-                    </div>
+                <div class="relative w-44 h-44 rounded-full border-4 border-rose-500/30 flex items-center justify-center bg-rose-950/5 neon-glow-ring">
+                    <div class="text-4xl font-mono font-black text-rose-400 text-glow-neon" id="scoreDisplay">0%</div>
                 </div>
 
-                <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 flex gap-3">
-                    <div class="w-10 h-10 bg-cyan-500/10 border border-cyan-500/20 rounded-lg flex items-center justify-center text-cyan-400 shrink-0"><i class="fa-solid fa-user-tie"></i></div>
-                    <div>
-                        <h3 class="text-xs font-bold uppercase text-slate-300 tracking-wider">Beard Styling Blueprint</h3>
-                        <p id="beardText" class="text-xs text-slate-400 mt-1">Select scan to generate dynamic visual blueprints.</p>
+                <div class="w-full flex flex-col gap-4">
+                    <div class="bg-gradient-to-r from-rose-950/20 to-violet-950/20 border border-rose-500/10 rounded-xl p-4 shadow-inner">
+                        <h4 class="text-xs font-bold uppercase text-rose-400 tracking-wider">Bonding Dynamic</h4>
+                        <p id="bondName" class="text-sm font-bold text-violet-300 mt-1 tracking-wide">Awaiting Ingestion...</p>
                     </div>
-                </div>
 
-                <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 flex gap-3">
-                    <div class="w-10 h-10 bg-emerald-500/10 border border-emerald-500/20 rounded-lg flex items-center justify-center text-emerald-400 shrink-0"><i class="fa-solid fa-sparkles"></i></div>
-                    <div>
-                        <h3 class="text-xs font-bold uppercase text-slate-300 tracking-wider">Home Skin Routine</h3>
-                        <p id="skinText" class="text-xs text-slate-400 mt-1">Hydration cycles mapping post-matrix computational analysis.</p>
-                    </div>
-                </div>
-
-                <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 flex gap-3">
-                    <div class="w-10 h-10 bg-amber-500/10 border border-amber-500/20 rounded-lg flex items-center justify-center text-amber-400 shrink-0"><i class="fa-solid fa-bacterium"></i></div>
-                    <div>
-                        <h3 class="text-xs font-bold uppercase text-slate-300 tracking-wider">Follicle Care Core</h3>
-                        <p id="hairCareText" class="text-xs text-slate-400 mt-1">Scalp nutrient locking routines maps dynamically loaded.</p>
+                    <div class="bg-slate-900/40 border border-slate-800/80 rounded-xl p-4">
+                        <h4 class="text-xs font-bold uppercase text-slate-500 tracking-wider">Relationship Prediction</h4>
+                        <p id="bondDesc" class="text-xs text-slate-400 mt-1 leading-relaxed">Both face prints must be submitted to map geometric coordinates.</p>
                     </div>
                 </div>
             </div>

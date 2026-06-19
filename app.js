@@ -1,105 +1,109 @@
-const fileInput = document.getElementById('fileInput');
-const uploadPrompt = document.getElementById('uploadPrompt');
-const outputCanvas = document.getElementById('outputCanvas');
-const ctx = outputCanvas.getContext('2d');
-const webcamVideo = document.getElementById('webcamVideo');
-const scanBtn = document.getElementById('scanBtn');
-const resultsMatrix = document.getElementById('resultsMatrix');
+const fileA = document.getElementById('fileA');
+const fileB = document.getElementById('fileB');
+const canvasA = document.getElementById('canvasA');
+const canvasB = document.getElementById('canvasB');
+const calculateBtn = document.getElementById('calculateBtn');
+const resultsPanel = document.getElementById('resultsPanel');
 
-const detectedShape = document.getElementById('detectedShape');
-const hairText = document.getElementById('hairText');
-const beardText = document.getElementById('beardText');
-const skinText = document.getElementById('skinText');
-const hairCareText = document.getElementById('hairCareText');
+const scoreDisplay = document.getElementById('scoreDisplay');
+const bondName = document.getElementById('bondName');
+const bondDesc = document.getElementById('bondDesc');
 
-let targetImage = null;
-let meshEngine = null;
+let imgA = null, imgB = null;
+let ratioA = 0, ratioB = 0;
 
-// Static Style Matrix Data Sheets Mapping 
-const styleDatabase = {
-    'SQUARE_MATRIX': {
-        name: 'Square Structured Frame',
-        hair: 'Classic Side Part, Textured Pompadour, or Undercut to emphasize sharp jaw angles.',
-        beard: 'Heavy Stubble or Full Beard with short sides to elongate the facial vectors.',
-        skin: 'Gentle exfoliating face wash, alcohol-free toner, and a lightweight gel moisturizer to avoid dry oil build-up.',
-        hairCare: 'Use a clarifying tea tree shampoo twice a week, followed by a argan oil scalp massage to boost follicle density.'
-    },
-    'OVAL_MATRIX': {
-        name: 'Oval Balanced Proportions',
-        hair: 'Fringe Up, Pompadour, or Mid-Fade Crops. Avoid heavy forward bangs that shorten the framework.',
-        beard: 'Clean-shaven layout, short tailored box beard, or crisp light lining locks.',
-        skin: 'Hydrating milk cleanser, Vitamin C protective serum every morning, and broad-spectrum SPF sunscreen block.',
-        hairCare: 'Sulfate-free structural conditioning washes, bamboo-extract serum drops to lock natural moisture levels.'
-    }
-};
-
-fileInput.addEventListener('change', (e) => {
+fileA.addEventListener('change', (e) => {
     if (e.target.files.length) {
         const reader = new FileReader();
         reader.readAsDataURL(e.target.files[0]);
         reader.onload = (event) => {
-            const img = new Image();
-            img.src = event.target.result;
-            img.onload = () => {
-                targetImage = img;
-                uploadPrompt.classList.add('hidden');
-                outputCanvas.classList.remove('hidden');
-                outputCanvas.width = 640;
-                outputCanvas.height = 480;
-                ctx.drawImage(targetImage, 0, 0, 640, 480);
+            imgA = new Image();
+            imgA.src = event.target.result;
+            imgA.onload = () => {
+                canvasA.classList.remove('hidden');
+                canvasA.width = 300; canvasA.height = 300;
+                canvasA.getContext('2d').drawImage(imgA, 0, 0, 300, 300);
             };
         };
     }
 });
 
-function runFaceAnalysisPipeline() {
-    meshEngine = new FaceMesh({
+fileB.addEventListener('change', (e) => {
+    if (e.target.files.length) {
+        const reader = new FileReader();
+        reader.readAsDataURL(e.target.files[0]);
+        reader.onload = (event) => {
+            imgB = new Image();
+            imgB.src = event.target.result;
+            imgB.onload = () => {
+                canvasB.classList.remove('hidden');
+                canvasB.width = 300; canvasB.height = 300;
+                canvasB.getContext('2d').drawImage(imgB, 0, 0, 300, 300);
+            };
+        };
+    }
+});
+
+async function analyzeFaceStructures() {
+    const faceMesh = new FaceMesh({
         locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`
     });
+    faceMesh.setOptions({ maxNumFaces: 1, refineLandmarks: false, minDetectionConfidence: 0.5 });
 
-    meshEngine.setOptions({ maxNumFaces: 1, refineLandmarks: true, minDetectionConfidence: 0.5 });
-    meshEngine.onResults((results) => {
-        if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
-            const points = results.multiFaceLandmarks[0];
-            
-            // Core Geometric Aspect Calculation Logic
-            const widthDelta = Math.abs(points[234].x - points[454].x); // Width across cheekbones
-            const heightDelta = Math.abs(points[10].x - points[152].x);  // Height from forehead to chin
-            const dynamicRatio = widthDelta / (heightDelta || 1);
+    return new Promise((resolve) => {
+        let completed = 0;
+        faceMesh.onResults((results) => {
+            completed++;
+            if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
+                const pts = results.multiFaceLandmarks[0];
+                const width = Math.abs(pts[234].x - pts[454].x);
+                const height = Math.abs(pts[10].y - pts[152].y);
+                if (completed === 1) ratioA = width / (height || 1);
+                if (completed === 2) ratioB = width / (height || 1);
+            }
+            if (completed === 2) resolve();
+        });
 
-            ctx.clearRect(0, 0, outputCanvas.width, outputCanvas.height);
-            ctx.drawImage(targetImage, 0, 0, 640, 480);
-
-            // Render Trace Face Landmarks Overlays Nodes Array
-            ctx.fillStyle = "rgba(139, 92, 246, 0.7)";
-            points.forEach(pt => {
-                ctx.beginPath();
-                ctx.arc(pt.x * 640, pt.y * 480, 1.2, 0, 2 * Math.PI);
-                ctx.fill();
-            });
-
-            // Evaluate Matrix Classifications Profile
-            const assignedProfile = (dynamicRatio > 0.15) ? 'SQUARE_MATRIX' : 'OVAL_MATRIX';
-            renderTargetGroomingCards(assignedProfile);
-        }
+        faceMesh.send({ image: imgA }).then(() => {
+            faceMesh.send({ image: imgB });
+        });
     });
-
-    meshEngine.send({ image: targetImage });
 }
 
-function renderTargetGroomingCards(key) {
-    const data = styleDatabase[key];
-    detectedShape.textContent = data.name;
-    hairText.textContent = data.hair;
-    beardText.textContent = data.beard;
-    skinText.textContent = data.skin;
-    hairCareText.textContent = data.hairCare;
+async function computeBondingMatrix() {
+    if (!imgA || !imgB) return alert("Please populate both image asset nodes first, bhai! 🤦‍♂️");
+    
+    calculateBtn.textContent = "Processing Compatibility Matrices...";
+    resultsPanel.classList.add('opacity-10', 'scale-95'); // Reset animation transitions states
+    
+    await analyzeFaceStructures();
 
-    // Remove opacity block barrier smoothly
-    resultsMatrix.classList.remove('opacity-40', 'pointer-events-none');
+    if (ratioA === 0) ratioA = 0.82;
+    if (ratioB === 0) ratioB = 0.79;
+
+    const structuralDelta = Math.abs(ratioA - ratioB);
+    let finalScore = Math.floor(100 - (structuralDelta * 240));
+    if (finalScore > 98) finalScore = 98;
+    if (finalScore < 45) finalScore = 55;
+
+    // Trigger score ticking look
+    scoreDisplay.textContent = `${finalScore}%`;
+    
+    if (finalScore > 85) {
+        bondName.textContent = "✨ Twin Flame Matrix Sync";
+        bondDesc = "Absolute facial symmetry correlation detected. Deep intuitive synchronicity with matching energy loops. Ideal psychological stability blueprint.";
+    } else if (finalScore > 65) {
+        bondName.textContent = "⚡ Magnetic Harmony Proportions";
+        bondDesc = "Highly balancing complementary structure types. Strong relational gravitational pull with high conversational retention tracks.";
+    } else {
+        bondName.textContent = "🪐 Independent Orbit Axis";
+        bondDesc = "Distinct unique individual facial geometry layouts. Highly individualistic traits mapping. Requires active adjustment parameters but creates powerful separate growth lines.";
+    }
+
+    // Trigger neon reveal transitions
+    resultsPanel.classList.remove('opacity-10', 'pointer-events-none', 'scale-95');
+    resultsPanel.classList.add('opacity-100', 'scale-100');
+    calculateBtn.textContent = "Compute Bonding Matrix";
 }
 
-scanBtn.addEventListener('click', () => {
-    if (!targetImage) return alert("Ingest an image asset map blueprint first, bhai! 🤦‍♂️");
-    runFaceAnalysisPipeline();
-});
+calculateBtn.addEventListener('click', computeBondingMatrix);
