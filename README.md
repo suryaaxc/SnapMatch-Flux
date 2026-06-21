@@ -6,11 +6,13 @@
  | (_| \__ \ | | (_) || | | | | | (_| |  | | |  _  /  | |_| |  / ^ \ 
   \__,_|___/_|  \___/ |_| |_| |_|\__,_|  |_| |_| \_\  \_____/ /_/ \_\
                       [ CORE ENTERTAINMENT MATRIX ]
+```
 "Plot Twist: Stop checking zodiac horoscopes using legacy text inputs. We scan face printing grids instantly inside your browser memory cache frames."
 
 Welcome to SnapMatch AstroFlux v1.5, a highly engaging, cyber-astrology entertainment playground built to calculate multi-dimensional synchronization vectors using facial proportions. No servers, no tracking, pure local runtime chaos.
 
 🎨 Creative Core Features
+---
 ⚡ Zero-Delay Ingestion (Ctrl + V Interception): Skip the traditional browse bottlenecks. Slap screenshots and portrait images straight into separate raw execution canvas placeholders.
 
 👁️ Real-Time Face Landmarks: Computes precise geometric data structures across your facial grid on active browser render loops.
@@ -22,9 +24,9 @@ Welcome to SnapMatch AstroFlux v1.5, a highly engaging, cyber-astrology entertai
 🔮 Hyper-Bright Neon Rendering: Built with custom dynamic layout overrides that keep the target scores glowing at 100% brightness, piercing clean through dark backgrounds.
 
 🧠 Complete Architecture Blueprint
+---
 The script fires asynchronously on the client's thread, pulling assets straight into layout buffers before computing structural variations.
-
-Plaintext
+```
 
 
  ┌────────────────────────────────────────────────────────────────────────┐
@@ -55,7 +57,10 @@ Plaintext
  │                    HARDWARE GLOW INJECTION ENGINE                      │
  │ Forces Inline Text-Shadows ──► Sets Panel Brightness Global Factor 1.5 │
  └────────────────────────────────────────────────────────────────────────┘
+```
+
 Technical Specs
+---
 UI Interface Frame: Structured HTML5 Shell & Canvas Elements.
 
 Styles Assembly: Tailwind CSS v4 Engine (Compiled natively on the run).
@@ -65,6 +70,7 @@ Iconographic Packages: FontAwesome v6.4.0 Vector Assets.
 Inference Libraries: Google MediaPipe Face Mesh sub-packages.
 
 ⚙️ Setting Up Your Space Grid
+---
 Launch your localized code management setup inside your working folder workspace.
 
 Fire up your static engine proxy (e.g., VS Code Go Live compiler plug-in).
@@ -74,6 +80,7 @@ Access your secure execution interface port path (http://127.0.0.1:5500) nativel
 Permissions Check: If paste listeners are restricted by safety rules, tap the Lock Icon (🔒) on your URL bar and switch Clipboard access to Allow. Perform a Ctrl + F5 (Hard Refresh) to synchronize.
 
 🚨 CRITICAL WARNING // PROPRIETARY RIGHTS
+---
 Copyright (c) 2026 Surya. All Rights Reserved.
 
 Diff
