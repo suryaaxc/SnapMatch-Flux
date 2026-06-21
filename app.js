@@ -66,7 +66,7 @@ async function computeBondingMatrix() {
     if (!imgA || !imgB) return alert("Please upload both portraits first, bhai! 🤦‍♂️");
     
     calculateBtn.textContent = "TRACING PLANETARY GRIDS...";
-    resultsPanel.style.opacity = "0.15";
+    resultsPanel.style.opacity = "100";
     resultsPanel.style.transform = "scale(0.95)";
     resultsPanel.style.filter = "none";
     
