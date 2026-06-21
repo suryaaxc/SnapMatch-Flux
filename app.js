@@ -110,15 +110,15 @@ async function computeBondingMatrix() {
     }
 
     // 🔥 ABSOLUTE RE-ILLUMINATION TRIGGER
-    resultsPanel.style.opacity = "1";
+    resultsPanel.style.opacity = "100";
     resultsPanel.style.pointerEvents = "auto";
-    resultsPanel.style.transform = "scale(1)";
-    resultsPanel.style.filter = "brightness(1.5)"; 
+    resultsPanel.style.transform = "scale(100)";
+    resultsPanel.style.filter = "brightness(100)"; 
 
     // Neon Core Override Execution Loop
     scoreDisplay.style.color = "#ffffff";
-    scoreDisplay.style.opacity = "1";
-    scoreDisplay.style.textShadow = "0 0 20px #f43f5e, 0 0 40px #ec4899, 0 0 60px #a855f7, 0 0 90px #ffffff";
+    scoreDisplay.style.opacity = "100";
+    scoreDisplay.style.textShadow = "0 10px 20px #f43f5e, 0 0 40px #ec4899, 0 0 60px #a855f7, 0 0 90px #ffffff";
 
     // Direct Target Hex Injections
     vLove.style.color = "#ff4b72"; vLove.style.fontWeight = "900";
