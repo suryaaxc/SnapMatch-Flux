@@ -66,13 +66,13 @@ async function computeBondingMatrix() {
     if (!imgA || !imgB) return alert("Please upload both portraits first, bhai! 🤦‍♂️");
     
     calculateBtn.textContent = "TRACING PLANETARY GRIDS...";
-    resultsPanel.style.opacity = "0.1";
+    resultsPanel.style.opacity = "0.15";
     resultsPanel.style.transform = "scale(0.95)";
     
     await analyzeFaceStructures();
 
     if (ratioA === 0) ratioA = 0.83;
-    if (ratioB === 0) ratioB = 0.80;
+    if (ratioB === 0) ratio0 = 0.80;
 
     const structuralDelta = Math.abs(ratioA - ratioB);
     
@@ -108,20 +108,21 @@ async function computeBondingMatrix() {
         bondDesc = `Your charts intercept on a conflicting geometric axis. Arch-Enemy multipliers point to rapid ego trigger zones. However, cosmic paradox rules dictate that this extreme polarization creates intense magnetic pull. A wild ride with massive separate growth vectors.`;
     }
 
-    // 🔥 ABSOLUTE FIX: DIRECT JAVASCRIPT LAYER STYLE ASSIGNMENTS WITHOUT TAILWIND CLASHES
+    // 🔥 FORCE HIGHEST LIGHT VISIBILITY STATE (REMOVED LOW OPACITY)
     resultsPanel.style.opacity = "1";
     resultsPanel.style.pointerEvents = "auto";
     resultsPanel.style.transform = "scale(1)";
     
+    // Laser sharp neon blast directly over DOM node
     scoreDisplay.style.color = "#ffffff";
-    scoreDisplay.style.textShadow = "0 0 15px #f43f5e, 0 0 30px #ec4899, 0 0 50px #a855f7, 0 0 75px #6366f1";
+    scoreDisplay.style.textShadow = "0 0 20px #f43f5e, 0 0 40px #ec4899, 0 0 60px #a855f7, 0 0 90px #6366f1";
 
     calculateBtn.textContent = "🔮 Read Astro-Neural Charts";
 }
 
 calculateBtn.addEventListener('click', computeBondingMatrix);
 
-// --- 📋 CLIPBOARD PASTE INTERCEPTION LOOP (CTRL+V FIXED) ---
+// --- 📋 CLIPBOARD PASTE INTERCEPTION LOOP ---
 window.addEventListener('paste', (e) => {
     const clipboardItems = e.clipboardData.items;
     for (let i = 0; i < clipboardItems.length; i++) {
