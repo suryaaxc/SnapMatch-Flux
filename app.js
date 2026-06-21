@@ -68,11 +68,12 @@ async function computeBondingMatrix() {
     calculateBtn.textContent = "TRACING PLANETARY GRIDS...";
     resultsPanel.style.opacity = "0.15";
     resultsPanel.style.transform = "scale(0.95)";
+    resultsPanel.style.filter = "none";
     
     await analyzeFaceStructures();
 
     if (ratioA === 0) ratioA = 0.83;
-    if (ratioB === 0) ratio0 = 0.80;
+    if (ratioB === 0) ratioB = 0.80;
 
     const structuralDelta = Math.abs(ratioA - ratioB);
     
@@ -108,14 +109,23 @@ async function computeBondingMatrix() {
         bondDesc = `Your charts intercept on a conflicting geometric axis. Arch-Enemy multipliers point to rapid ego trigger zones. However, cosmic paradox rules dictate that this extreme polarization creates intense magnetic pull. A wild ride with massive separate growth vectors.`;
     }
 
-    // 🔥 FORCE HIGHEST LIGHT VISIBILITY STATE (REMOVED LOW OPACITY)
+    // 🔥 ABSOLUTE RE-ILLUMINATION TRIGGER
     resultsPanel.style.opacity = "1";
     resultsPanel.style.pointerEvents = "auto";
     resultsPanel.style.transform = "scale(1)";
-    
-    // Laser sharp neon blast directly over DOM node
+    resultsPanel.style.filter = "brightness(1.5)"; 
+
+    // Neon Core Override Execution Loop
     scoreDisplay.style.color = "#ffffff";
-    scoreDisplay.style.textShadow = "0 0 20px #f43f5e, 0 0 40px #ec4899, 0 0 60px #a855f7, 0 0 90px #6366f1";
+    scoreDisplay.style.opacity = "1";
+    scoreDisplay.style.textShadow = "0 0 20px #f43f5e, 0 0 40px #ec4899, 0 0 60px #a855f7, 0 0 90px #ffffff";
+
+    // Direct Target Hex Injections
+    vLove.style.color = "#ff4b72"; vLove.style.fontWeight = "900";
+    vFriend.style.color = "#00ffff"; vFriend.style.fontWeight = "900";
+    vPartner.style.color = "#fbbf24"; vPartner.style.fontWeight = "900";
+    vHate.style.color = "#ff781f"; vHate.style.fontWeight = "900";
+    vEnemy.style.color = "#ff3333"; vEnemy.style.fontWeight = "900";
 
     calculateBtn.textContent = "🔮 Read Astro-Neural Charts";
 }
